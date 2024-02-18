@@ -1,0 +1,10 @@
+.card {
+    height: 100%; /* Set a fixed height for the card */
+    display: flex;
+    flex-direction: column;
+}
+
+.card-img-top {
+    flex-grow: 1; /* Make the image grow to fill the available space */
+    object-fit: cover; /* Ensure the image maintains aspect ratio and covers the container */
+}
