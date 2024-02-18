@@ -12,7 +12,7 @@ class Product(models.Model):
     image = models.ImageField(upload_to='product_images/')
     description = models.TextField()
     price = models.FloatField(max_length=10)
-    quantity = models.IntegerField(max_length=10)
+    quantity = models.IntegerField()
     stock = models.BooleanField(default=False)
     discount = models.FloatField(max_length=10)
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
