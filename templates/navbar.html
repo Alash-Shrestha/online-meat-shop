@@ -10,7 +10,7 @@
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav nav-underline">
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Menu</a>
+                    <a class="nav-link" href="{% url 'products:home' %}">Menu</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#">About</a>
@@ -21,7 +21,7 @@
             </ul>
         </div>
         <div class="collapse navbar-collapse d-grid gap-2 d-md-flex justify-content-md-end" id="navbarNav">
-            <button class="btn btn-light me-md-2" type="button">LOG IN</button>
+            <a href="{% url 'users:login' %}"> <button class="btn btn-light me-md-2" type="button">LOG IN</button></a>
             <button class="btn btn-primary" type="button">SIGN UP</button>
         </div>
     </div>

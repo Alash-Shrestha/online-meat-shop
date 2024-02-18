@@ -5,6 +5,8 @@
 {% endblock head %}
     
 {% block body %}
+{% include 'navbar.html' %}
+
 <form method="post">
 {% csrf_token %}
 <section class="vh-100 gradient-custom">
