@@ -27,7 +27,9 @@ def signup_page(request):
         password = request.POST.get('password')
         user = User.objects.create_user(username=username, email=email, password=password)
         user.save()
-        return redirect('products:login')
+        customer = Customer(user=user, phone=phone)
+        customer.save()
+        return redirect('products:login_page')
     return render(request, 'users/signup.html')
 
 @login_required
