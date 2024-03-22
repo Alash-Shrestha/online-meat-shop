@@ -5,55 +5,51 @@
     <title>Home</title>
     <link rel="stylesheet" href="{% static 'css/products/home.css' %}">
 {% endblock head %}
+
+{% block navbar %}
+{% include 'navbar.html' %}
+{% endblock navbar %}
     
 {% block body %}
-{% include 'navbar.html' %}
-
-<div class="container">
-    <div class="row">
-        <div class="col-md-4 mb-4">
-            <div class="card">
-                <img src="{% static 'img/products/chicken.jpg' %}" class="card-img-top" alt="Product 1">
-                <div class="card-body">
-                <h5 class="card-title">Product 1</h5>
-                <p class="card-text">Description of product 1.</p>
-                <a href="#" class="btn btn-primary">Buy Now</a>
-                </div>
+<section class="py-5">
+    <div class="container px-4 px-lg-5 mt-5">
+        <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-3 justify-content-center">
+            {% for product in products %}
+            <div class="col mb-5">
+                <a href="{% url 'products:product' product.name%}">
+                    <div class="card h-100">
+                        {% if product.is_sale %}
+                        <div class="badge bg-dark text-white position-absolute" style="top: 0.5rem; right: 0.5rem">Sale</div>
+                        {% endif %}
+                        <!-- Product image-->
+                        <img class="card-img-top custom-img" src="{{ product.imageURL }}" alt="..." />
+                        <!-- Product details-->
+                        <div class="card-body p-4">
+                            <div class="text-center">
+                                <!-- Product name-->
+                                <h5 class="fw-bolder">{{ product.name }}</h5>
+                                <!-- Product reviews-->
+                                {% comment %} <div class="d-flex justify-content-center small text-warning mb-2">
+                                    <div class="bi-star-fill"></div>
+                                    <div class="bi-star-fill"></div>
+                                    <div class="bi-star-fill"></div>
+                                    <div class="bi-star-fill"></div>
+                                    <div class="bi-star-fill"></div>
+                                </div> {% endcomment %}
+                                <!-- Product price-->
+                                {% if product.is_sale %}
+                                <span class="text-muted text-decoration-line-through">Rs.{{ product.price }}</span>&nbsp;
+                                Rs.{{ product.sale_price }}
+                                {% else %}
+                                Rs.{{ product.price }}
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </a>
             </div>
-        </div>
-
-        <div class="col-md-4 mb-4">
-            <div class="card">
-                <img src="{% static 'img/products/buff.jpg' %}" class="card-img-top" alt="Product 1">
-                <div class="card-body">
-                    <h5 class="card-title">Product 1</h5>
-                    <p class="card-text">Description of product 1.</p>
-                    <a href="#" class="btn btn-primary">Buy Now</a>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-md-4 mb-4">
-            <div class="card">
-                <img src="{% static 'img/products/chicken1.jpg' %}" class="card-img-top" alt="Product 1">
-                <div class="card-body">
-                    <h5 class="card-title">Product 1</h5>
-                    <p class="card-text">Description of product 1.</p>
-                    <a href="#" class="btn btn-primary">Buy Now</a>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-md-4 mb-4">
-            <div class="card">
-                <img src="{% static 'img/products/chicken1.jpg' %}" class="card-img-top" alt="Product 1">
-                <div class="card-body">
-                    <h5 class="card-title">Product 1</h5>
-                    <p class="card-text">Description of product 1.</p>
-                    <a href="#" class="btn btn-primary">Buy Now</a>
-                </div>
-            </div>
+            {% endfor %}
         </div>
     </div>
-</div
+</section>
 {% endblock body %}
