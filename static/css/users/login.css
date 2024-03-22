@@ -1,0 +1,17 @@
+.btn-login {
+    font-size: 0.9rem;
+    letter-spacing: 0.05rem;
+    padding: 0.75rem 1rem;
+}
+
+.btn-google:hover,
+.btn-google {
+    color: white !important;
+    background-color: #d82d20; /* Adjust the color to your preference */
+}
+
+.btn-facebook:hover,
+.btn-facebook {
+    color: white !important;
+    background-color: #2d4373; /* Adjust the color to your preference */
+}
