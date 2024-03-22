@@ -1,28 +1,24 @@
-<nav class="navbar navbar-expand-lg bg-body-tertiary">
-    <div class="container-fluid">
-        <div>
-            <a class="navbar-brand" href="#">Chi-Chi Nepal</a>
-        </div>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav nav-underline">
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'products:home' %}">Menu</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">About</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Contact Us</a>
-                </li>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container px-4 px-lg-5">
+        <a class="navbar-brand" href="{% url 'products:home' %}">Chi-Chi Nepal</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav nav-underline me-auto mb-2 mb-lg-0 ms-lg-4">
+                <li class="nav-item"><a class="nav-link" href="{% url 'products:home' %}">Shop</a></li>
+                <li class="nav-item"><a class="nav-link" href="#!">Recipe</a></li>
+                <li class="nav-item"><a class="nav-link" href="#!">About</a></li>
             </ul>
-        </div>
-        <div class="collapse navbar-collapse d-grid gap-2 d-md-flex justify-content-md-end" id="navbarNav">
-            <a href="{% url 'users:login' %}"> <button class="btn btn-light me-md-2" type="button">LOG IN</button></a>
-            <button class="btn btn-primary" type="button">SIGN UP</button>
+            
+            {% if user.is_authenticated %}
+            <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                <a href="{% url 'users:logout_page' %}"><button class="btn btn-primary" type="button">Logout</button></a>
+            </div>
+            {% else %}
+            <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                <a href="{% url 'users:login_page' %}"> <button class="btn btn-light" type="button">LOG IN</button></a>
+                <a href="{% url 'users:signup_page' %}"><button class="btn btn-primary" type="button">SIGN UP</button></a>
+            </div>
+            {% endif %}
         </div>
     </div>
 </nav>
