@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block navbar %}
+{% include 'navbar.html' %}
+{% endblock navbar %}
+{% block body %}
+<div class="container-fluid my-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6 col-lg-6">
+            <div class="card">
+            <h4 class="mb-3 card-header text-center">Add Recipe</h4>
+            <form action="{% url "recipe:add_recipe" %}" method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="row g-3 card-body">
+                    <div class="col-12">
+                        <label for="title" class="form-label">Title</label>
+                        <input type="text" name="title" class="form-control" id="title" required autocomplete="off">
+                    </div>
+                    <div class="col-12 my-3">
+                        <label for="formFile" class="form-label">Upload Image</label>
+                        <input class="form-control" type="file" name="image" id="formFile" required>
+                    </div>
+                    <div class="col-12 my-3">
+                    <select class="form-select" id="category" aria-label="Default select example" required>
+                        <option selected>Select category</option>
+                        {% for category in categories %}
+                        <option value="{{category.id}}">{{ category.name }}</option>
+                        {% endfor %}
+                    </select>
+                    </div>
+                    <div class="col-12">
+                        <label for="description" class="form-label">Description</label>
+                        <textarea name="description" class="form-control" id="description" required rows="3"></textarea>
+                    </div>
+                    <div class="col-12">
+                        <label for="ingredients" class="form-label">Ingredients</label>
+                        <textarea name="ingredients" class="form-control" id="ingredients" required rows="3"></textarea>
+                    </div>
+                    <div class="col-12">
+                        <label for="instructions" class="form-label">Instructions</label>
+                        <textarea name="instructions" class="form-control" id="instructions" rows="5"></textarea>
+                    </div>
+                    <button class="btn btn-primary" type="submit">Submit</button>
+                </div>
+            </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock body %}

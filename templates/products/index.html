@@ -1,22 +1,41 @@
 {% extends 'base.html' %}
 {% load static %}
-
-{% block  head %}
-    <title>Home</title>
-    <link rel="stylesheet" href="{% static 'css/products/home.css' %}">
+{% block head %}
+<link rel="stylesheet" href="{% static "css/products/index.css" %}">
 {% endblock head %}
-
 {% block navbar %}
 {% include 'navbar.html' %}
 {% endblock navbar %}
-    
 {% block body %}
+{% comment %} <header class="pt-4">
+    <div class="container">
+        <div class="text-center">
+            <h2 class="fw-bolder">Shop</h2>
+        </div>
+    </div>
+</header> {% endcomment %}
+<div class="container border-bottom">
+    <header class="d-flex justify-content-center pt-4 pb-2">
+    <ul class="nav nav-pills">
+        <li><a href="{% url "products:index" %}" class="nav-link px-5 text-black">All</a></li>
+        {% for category in categories %}
+        <li><a href="{% url "products:category" category %}" class="nav-link px-5 text-black">{{ category }}</a></li>
+        {% endfor %}
+        {% comment %} <li class="nav-item"><a href="#" class="nav-link tex-black" aria-current="page">Home</a></li>
+        <li class="nav-item"><a href="#" class="nav-link tex-black">Features</a></li>
+        <li class="nav-item"><a href="#" class="nav-link tex-black">Pricing</a></li>
+        <li class="nav-item"><a href="#" class="nav-link tex-black">FAQs</a></li>
+        <li class="nav-item"><a href="#" class="nav-link tex-black">About</a></li> {% endcomment %}
+    </ul>
+    </header>
+</div>
 <section class="py-5">
-    <div class="container px-4 px-lg-5 mt-5">
+    <div class="container px-4 px-lg-5">
         <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-3 justify-content-center">
             {% for product in products %}
+            {% if product.stock %}
             <div class="col mb-5">
-                <a href="{% url 'products:product' product.name%}" class="text-white">
+                <a href="{% url 'products:product' product.name %}" class="text-white">
                     <div class="card h-100">
                         {% if product.is_sale %}
                         <div class="badge bg-dark text-white position-absolute" style="top: 0.5rem; right: 0.5rem">Sale</div>
@@ -48,8 +67,14 @@
                     </div>
                 </a>
             </div>
+            {% endif %}
             {% endfor %}
         </div>
     </div>
 </section>
 {% endblock body %}
+{% block footer %}
+{% include "footer.html" %}
+{% endblock footer %}
+{% include "footer.html" %}
+

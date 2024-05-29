@@ -1,0 +1,73 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block head %}
+<title>Recipe</title>
+<style>
+    .card-img-top {
+        height: 350px;
+        object-fit: cover;
+    }
+    .card-body {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+</style>
+{% endblock %}
+{% block navbar %}
+{% include 'navbar.html' %}
+{% endblock navbar %}
+{% block body %}
+<header class="py-4 mb-4">
+    <div class="container">
+        <div class="text-center">
+            <h1 class="fw-bolder">My Recipe</h1>
+        </div>
+    </div>
+</header>
+<div class="container">
+    <div class="row">
+        <div class="col-lg-8">
+            <div class="row">
+                {% for recipe in recipes %}
+                {% if recipe.approved == 1%}
+                <div class="col-lg-16">
+                    <div class="card mb-4">
+                        <a href="{% url "recipe:recipe" recipe.name %}"><img class="card-img-top" src="{{ recipe.imageURL }}" alt="..." /></a>
+                        <div class="card-body">
+                            <div class="small text-muted">{{ recipe.updated_at }}</div>
+                            <h2 class="card-title h4">{{ recipe.name }}</h2>
+                            <a class="btn btn-primary" href="{% url "recipe:recipe" recipe.name %}">Read more →</a>
+                        </div>
+                    </div>
+                </div>                
+                {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+        <!-- Side widgets-->
+        <div class="col-lg-4">
+            <!-- Search widget-->
+            <form action="{% url "recipe:search_recipe" %}" method="POST">
+            {% csrf_token %}
+            <div class="card mb-4">
+                <div class="card-header">Search</div>
+                <div class="card-body">
+                    <div class="input-group">
+                        <input class="form-control" type="text" name="search_recipe" placeholder="Search recipe here..." aria-label="Enter recipe search term..." aria-describedby="button-search" autocomplete="off"/>
+                        <button class="btn btn-primary" id="button-search" type="submit">Go!</button>
+                    </div>
+                </div>
+            </div>
+            </form>
+                <div class="row">
+                    <a href="{% url "recipe:add_recipe" %}" class="col btn btn-primary mx-4">Add Recipe</a>
+                    <a href="{% url "recipe:recipe_list" %}" class="col btn btn-primary mx-4">All Recipe</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock body %}
+{% block footer %}
+{% include "footer.html" %}
+{% endblock footer %}

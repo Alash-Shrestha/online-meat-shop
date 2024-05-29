@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block navbar %}
+{% include 'navbar.html' %}
+{% endblock navbar %}
+{% block body %}
+<div class="container-fluid my-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6 col-lg-6">
+            <div class="card">
+            <h4 class="mb-3 card-header text-center">Contact Us</h4>
+            <form action="{% url "recipe:add_recipe" %}" method="POST">
+                {% csrf_token %}
+                <div class="row g-3 card-body">
+                    <div class="col-12">
+                        <label for="name" class="form-label">Name</label>
+                        <input type="text" name="name" class="form-control" id="name" required autocomplete="off">
+                    </div>
+                    <div class="col-12">
+                        <label for="email" class="form-label">Email</label>
+                        <input type="email" name="email" class="form-control" id="email" required autocomplete="off">
+                    </div>
+                    <div class="col-12">
+                        <label for="message" class="form-label">Message</label>
+                        <textarea type="text" name="message" class="form-control" id="message" required rows="5" autocomplete="off">
+                        </textarea>
+                    </div>
+                    <button class="btn btn-primary mt-4" type="submit">Send</button>
+                </div>
+            </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock body %}

@@ -1,8 +1,7 @@
 {% extends 'base.html' %}
 {% load static %}
-
-{% block  head %}
-<link rel="stylesheet" href="{% static 'css/products/product.css' %}">
+{% block head %}
+<link rel="stylesheet" href="{% static "css/products/product.css" %}">
 {% endblock head %}
 {% block navbar %}
 {% include 'navbar.html' %}
@@ -10,145 +9,118 @@
 {% block body %}
 <section class="py-5">
     <div class="container px-4 px-lg-5 my-4">
-        <div class="row gx-4 gx-lg-5 justify-content-center align-items-center ">
-            <div class="col-md-4">
-                <img class="card-img-top mb-5 mb-md-0" src="https://dummyimage.com/600x700/dee2e6/6c757d.jpg" alt="{{ product.name }}" />
-            </div>
-            <div class="col-md-6">
-                <h1 class="display-5 fw-bolder">{{ product.name }}</h1>
-                <div class="fs-5 mb-3">
-                    {% if product.is_sale %}
-                    <span class="text-decoration-line-through">Rs.{{ product.price }}&nbsp</span>
-                    <span>Rs.{{ product.sale_price }}</span>
-                    {% else %}
-                    <span>Rs.{{ product.price }}</span>
-                    {% endif %}
-                </div>
-                <p class="lead">{{ product.description }}</p>
-                <div class="d-flex my-5">
-                    <div class="wrapper">
-                        <span class="minus">-</span>
-                        <span class="num">01</span>
-                        <span class="plus">+</span>
-                    </div>
-                    <div class="mx-5">
-                        <button class="btn btn-outline-dark flex-shrink-0" type="button">
-                            <i class="bi-cart-fill me-1"></i>
-                            Add to cart
-                        </button>
-                    </div>
-                </div>
+    <div class="row gx-4 gx-lg-5 justify-content-center align-items-center">
+        <div class="col-md-4 mx-5">
+        <img class="card-img-top mb-5 mb-md-0" src="{{ product.imageURL }}" alt="{{ product.name }}" />
+        </div>
+        <div class="col-md-6">
+        <p class="display-6 fw-bolder">{{ product.name }}</p>
+        <div class="fs-5 mb-3">
+            {% if product.is_sale %}
+            <span class="text-decoration-line-through">Rs.{{ product.price }}&nbsp</span>
+            <span>Rs.{{ product.sale_price }}</span>
+            {% else %}
+            <span>Rs.{{ product.price }}</span>
+            {% endif %}
+        </div>
+        <p class="lead">{{ product.description }}</p>
+        <div class="row mt-4">
+            <div class="col-md-2">Quantity:</div>
+            <div class="col-md-2">
+            <select class="form-select form-select-md" id="qty-cart">
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+            </select>
             </div>
         </div>
+        {% comment %} <div class="input-group quantity mt-4" style="width: 120px">
+            <div class="input-group-btn mt-1">
+            <button class="btn btn-sm btn-minus rounded-circle bg-light border"><i class="fa fa-minus"></i></button>
+            </div>
+            <input type="text" class="form-control form-control-sm text-center border-0 num" value="1" readonly style="font-size: 20px;" />
+            <div class="input-group-btn mt-1">
+            <button class="btn btn-sm btn-plus rounded-circle bg-light border"><i class="fa fa-plus"></i></button>
+            </div>
+        </div> {% endcomment %}
+        <div class="d-flex mt-4">
+            {% comment %} <div class="wrapper">
+            <span class="minus">-</span>
+            <span class="num">01</span>
+            <span class="plus">+</span>
+            </div> {% endcomment %}
+            <button type="button" class="btn btn-outline-dark flex-shrink-0" id="add-cart" value="{{ product.id }}">
+                <i class="bi-cart-fill me-1"></i>
+                Add to cart
+            </button>
+            </div>
+        </div>
+        </div>
+    </div>
     </div>
 </section>
 <section class="py-5 bg-light">
-    <div class="container px-4 px-lg-5 mt-5">
+    <div class="container px-3 px-lg-4 mt-5">
         <h2 class="fw-bolder mb-4">Related products</h2>
         <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
-            <div class="col mb-5">
+            {% for product in related_products %}
+            {% if product.stock %}
+            <a href="{% url 'products:product' product.name %}" class="text-white">
+            <div class="col mb-5" style="height:390px">
                 <div class="card h-100">
                     <!-- Product image-->
-                    <img class="card-img-top" src="https://dummyimage.com/450x300/dee2e6/6c757d.jpg" alt="..." />
+                    <img class="card-img-top custom-img" src="{{ product.imageURL }}" alt="{{ product.name }}" />
                     <!-- Product details-->
                     <div class="card-body p-4">
                         <div class="text-center">
                             <!-- Product name-->
-                            <h5 class="fw-bolder">Fancy Product</h5>
+                            <h5 class="fw-bolder">{{ product.name }}</h5>
                             <!-- Product price-->
-                            $40.00 - $80.00
+                            {% if product.is_sale %}
+                            <span class="text-decoration-line-through">Rs.{{ product.price }}&nbsp</span>
+                            <span>Rs.{{ product.sale_price }}</span>
+                            {% else %}
+                            <span>Rs.{{ product.price }}</span>
+                            {% endif %}
                         </div>
-                    </div>
-                    <!-- Product actions-->
-                    <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                        <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="#">View options</a></div>
                     </div>
                 </div>
             </div>
-            <div class="col mb-5">
-                <div class="card h-100">
-                    <!-- Sale badge-->
-                    <div class="badge bg-dark text-white position-absolute" style="top: 0.5rem; right: 0.5rem">Sale</div>
-                    <!-- Product image-->
-                    <img class="card-img-top" src="https://dummyimage.com/450x300/dee2e6/6c757d.jpg" alt="..." />
-                    <!-- Product details-->
-                    <div class="card-body p-4">
-                        <div class="text-center">
-                            <!-- Product name-->
-                            <h5 class="fw-bolder">Special Item</h5>
-                            <!-- Product reviews-->
-                            <div class="d-flex justify-content-center small text-warning mb-2">
-                                <div class="bi-star-fill"></div>
-                                <div class="bi-star-fill"></div>
-                                <div class="bi-star-fill"></div>
-                                <div class="bi-star-fill"></div>
-                                <div class="bi-star-fill"></div>
-                            </div>
-                            <!-- Product price-->
-                            <span class="text-muted text-decoration-line-through">$20.00</span>
-                            $18.00
-                        </div>
-                    </div>
-                    <!-- Product actions-->
-                    <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                        <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="#">Add to cart</a></div>
-                    </div>
-                </div>
-            </div>
-            <div class="col mb-5">
-                <div class="card h-100">
-                    <!-- Sale badge-->
-                    <div class="badge bg-dark text-white position-absolute" style="top: 0.5rem; right: 0.5rem">Sale</div>
-                    <!-- Product image-->
-                    <img class="card-img-top" src="https://dummyimage.com/450x300/dee2e6/6c757d.jpg" alt="..." />
-                    <!-- Product details-->
-                    <div class="card-body p-4">
-                        <div class="text-center">
-                            <!-- Product name-->
-                            <h5 class="fw-bolder">Sale Item</h5>
-                            <!-- Product price-->
-                            <span class="text-muted text-decoration-line-through">$50.00</span>
-                            $25.00
-                        </div>
-                    </div>
-                    <!-- Product actions-->
-                    <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                        <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="#">Add to cart</a></div>
-                    </div>
-                </div>
-            </div>
-            <div class="col mb-5">
-                <div class="card h-100">
-                    <!-- Product image-->
-                    <img class="card-img-top" src="https://dummyimage.com/450x300/dee2e6/6c757d.jpg" alt="..." />
-                    <!-- Product details-->
-                    <div class="card-body p-4">
-                        <div class="text-center">
-                            <!-- Product name-->
-                            <h5 class="fw-bolder">Popular Item</h5>
-                            <!-- Product reviews-->
-                            <div class="d-flex justify-content-center small text-warning mb-2">
-                                <div class="bi-star-fill"></div>
-                                <div class="bi-star-fill"></div>
-                                <div class="bi-star-fill"></div>
-                                <div class="bi-star-fill"></div>
-                                <div class="bi-star-fill"></div>
-                            </div>
-                            <!-- Product price-->
-                            $40.00
-                        </div>
-                    </div>
-                    <!-- Product actions-->
-                    <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                        <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="#">Add to cart</a></div>
-                    </div>
-                </div>
-            </div>
+            </a>
+            {% endif %}
+            {% endfor %}
         </div>
     </div>
 </section>
-
+{% endblock body %}
+{% block footer %}
+{% include "footer.html" %}
+{% endblock footer %}
+{% include "footer.html" %}
 {% block scripts %}
 <script src="{% static 'js/products/product.js' %}"></script>
+<script>
+    $(document).on('click', '#add-cart', function(e) {
+        e.preventDefault();
+        $.ajax({
+            type: 'POST',
+            url: '{% url 'cart:cart_add' %}',
+            data: {
+                product_id: $('#add-cart').val(),
+                product_qty: $('#qty-cart option:selected').text(),
+                csrfmiddlewaretoken: '{{ csrf_token }}',
+                action: 'post',
+            },
+            success: function(json) {
+                document.getElementById('cart_quantity').textContent = json.qty
+                location.reload();
+            },
+            error: function(xhr, errmsg, err) {
+                console.log("error");
+            }
+    });
+    });
+</script>
 {% endblock scripts %}
-{% endblock body %}

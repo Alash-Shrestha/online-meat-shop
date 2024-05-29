@@ -1,24 +1,67 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
+<nav class="navbar sticky-top navbar-expand-lg navbar-light bg-light fs-5 py-3">
     <div class="container px-4 px-lg-5">
-        <a class="navbar-brand" href="{% url 'products:home' %}">Chi-Chi Nepal</a>
+        <a class="navbar-brand fs-4" href="{% url 'products:index' %}">Chi-Chi Nepal</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav nav-underline me-auto mb-2 mb-lg-0 ms-lg-4">
-                <li class="nav-item"><a class="nav-link" href="{% url 'products:home' %}">Shop</a></li>
-                <li class="nav-item"><a class="nav-link" href="#!">Recipe</a></li>
-                <li class="nav-item"><a class="nav-link" href="#!">About</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'products:index' %}">Shop</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url "recipe:recipe_list" %}">Recipe</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url "users:about" %}">About</a></li>
             </ul>
-            
+            <form class="d-flex" role="search" action="{% url 'products:search_product' %}" method="POST">
+                {% csrf_token %}
+                <input class="form-control me-2" name="search_product" type="search" placeholder="Search" aria-label="Search" autocomplete="off">
+                <button class="btn btn-outline-success" type="submit">Search</button>
+            </form>
+            <form class="d-flex ms-4">
+                <a href="{% url 'cart:cart_view' %}">
+                <button class="btn border rounded-3" type="button">
+                    <i class="bi-cart-fill fs-5"></i>
+                    <span class="badge bg-dark text-white ms-1 rounded-3" id="cart_quantity">{{cart|length}}</span>
+                </button>
+                </a>
+            </form>
             {% if user.is_authenticated %}
-            <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-                <a href="{% url 'users:logout_page' %}"><button class="btn btn-primary" type="button">Logout</button></a>
+            <div class="dropdown ms-4">
+                <a href="#" class="d-flex align-items-center text-black text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                {% if image %}
+                <img src="{{image}}" alt="image" width="40" height="32" class="rounded-circle">
+                {% else %}
+                <i class="bi bi-person-fill rounded-circle fs-3"></i>
+                {% endif %}
+                <span class="fs-6 ms-2">{{request.user}}</span>
+                </a>
+                <ul class="dropdown-menu dropdown-menu-dark text-small shadow">
+                <li><a class="dropdown-item" href="{% url "users:order" %}">My Orders</a></li>
+                <li><a class="dropdown-item" href="{% url "users:update_user" %}">Profile</a></li>
+                <li><hr class="dropdown-divider"></li>
+                <li><a class="dropdown-item" href="{% url 'users:logout_page' %}">Sign out</a></li>
+                {% comment %} <li><a class="dropdown-item" href="#">Login</a></li>
+                <li><a class="dropdown-item" href="#">Sign Up</a></li> {% endcomment %}
+                </ul>
             </div>
             {% else %}
-            <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-                <a href="{% url 'users:login_page' %}"> <button class="btn btn-light" type="button">LOG IN</button></a>
-                <a href="{% url 'users:signup_page' %}"><button class="btn btn-primary" type="button">SIGN UP</button></a>
+            <div class="d-grid gap-2 d-md-flex justify-content-md-end ms-4">
+                <a href="{% url 'users:login_page' %}"> <button class="btn btn-light btn-outline-dark" type="button">LOG IN</button></a>
+                <a href="{% url 'users:signup_page' %}"><button class="btn btn-primary rounded-3" type="button">SIGN UP</button></a>
             </div>
             {% endif %}
+            {% comment %} <div class="d-grid gap-2 d-md-flex justify-content-md-end ms-3">
+                <a href="{% url 'users:logout_page' %}"><button class="btn btn-primary rounded-3" type="button">Logout</button></a>
+            </div> {% endcomment %}
+            {% comment %} <div class="d-grid gap-2 d-md-flex justify-content-md-end ms-3">
+                <a href="{% url 'users:login_page' %}"> <button class="btn btn-light border rounded-3" type="button">LOG IN</button></a>
+                <a href="{% url 'users:signup_page' %}"><button class="btn btn-primary rounded-3" type="button">SIGN UP</button></a>
+            </div> {% endcomment %}
+            {% comment %} <div class="dropdown">
+                <a href="#" class="d-flex align-items-center text-black text-decoration-none dropdown-toggle ms-3" data-bs-toggle="dropdown" aria-expanded="false">
+                <i class="bi bi-person-fill rounded-circle fs-3"></i> {% endcomment %}
+                {% comment %} <strong>admin</strong> {% endcomment %}
+                {% comment %} </a>
+                <ul class="dropdown-menu dropdown-menu-dark text-small shadow"> {% endcomment %}
+                
+                {% comment %} </ul> {% endcomment %}
+            {% comment %} </div> {% endcomment %}
         </div>
     </div>
 </nav>

@@ -1,0 +1,171 @@
+{% extends 'base.html' %}
+{% load static %} 
+{% block navbar %} 
+{% include 'navbar.html' %} 
+{% endblock navbar %} 
+{% block body %}
+<div class="container">
+<div class="row justify-content-center">
+    <div class="col-md-6 col-lg-6">
+    <div class="card border-0 shadow rounded-3 my-5">
+        <h2 class="text-center card-header mb-3">Profile</h2>
+        <div class="row">
+        <div class="col-md-5 my-3">
+            {% if current_user.imageURL != None %}
+            <img
+            src="{{ current_user.imageURL }}"
+            class="img-fluid rounded-circle mx-2"
+            style="height: 80%; width: auto"
+            />
+            {% else %}
+            <div class="container" style="height:70%">
+            <?xml version="1.0" ?><svg
+            viewBox="0 0 250 250"
+            xmlns="http://www.w3.org/2000/svg"
+            >
+            <rect fill="none" height="256" width="256" />
+            <path
+                d="M128,32A96,96,0,0,0,63.8,199.4h0A72,72,0,0,1,128,160a40,40,0,1,1,40-40,40,40,0,0,1-40,40,72,72,0,0,1,64.2,39.4A96,96,0,0,0,128,32Z"
+                opacity="0.2"
+            />
+            <circle
+                cx="128"
+                cy="128"
+                fill="none"
+                r="96"
+                stroke="#000"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="8"
+            />
+            <circle
+                cx="128"
+                cy="120"
+                fill="none"
+                r="40"
+                stroke="#000"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="8"
+            />
+            <path
+                d="M63.8,199.4a72,72,0,0,1,128.4,0"
+                fill="none"
+                stroke="#000"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="8"
+            />
+            </svg>
+        </div>
+            {% endif %}
+            <form id="uploadForm" action="{% url "users:upload_image" %}" method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+            <div class="my-3 px-3 d-flex justify-content-center">
+                <label for="formFile" class="btn btn-secondary">
+                    Upload Image
+                </label>
+                <input class="form-control" type="file" name="image" id="formFile" style="display: none;" onchange="submitForm()">
+            </div>
+            </form>
+        </div>
+        <div class="col-md-6 ms-4">
+            <div class="card-body">
+            <form method="POST">
+                {% csrf_token %}
+                <div class="form-floating my-4">
+                <input
+                    name="username"
+                    type="text"
+                    class="form-control"
+                    id="floatingInput"
+                    placeholder="Username"
+                    value="{{ user.username }}"
+                />
+                <label for="floatingInput">Username</label>
+                </div>
+                <div class="form-floating my-4">
+                <input
+                    name="email"
+                    type="email"
+                    class="form-control"
+                    id="floatingInput"
+                    placeholder="name@example.com"
+                    value="{{user.email}}"
+                />
+                <label for="floatingInput">Email address</label>
+                </div>
+                <div class="form-floating my-4">
+                <input
+                    name="phone"
+                    type="tel"
+                    class="form-control"
+                    id="floatingInput"
+                    placeholder="Phone Number"
+                    value="{{ current_user.phone }}"
+                />
+                <label for="floatingInput">Phone Number</label>
+                </div>
+            </form>
+            </div>
+        </div>
+        <div class="d-grid mb-2 px-4">
+                <button
+                    class="btn btn-success btn-login text-uppercase fw-bold"
+                    type="submit"
+                >
+                    Update Profile
+                </button>
+                </div>
+            </form>
+        </div>
+    </div>
+    </div>
+</div>
+</div>
+<div class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6 col-lg-6">
+            <div class="card">
+        <h4 class="card-header container text-center">Change Password</h4>
+        <form method="POST">
+            {% csrf_token %}
+        <div class="row g-3 card-body">
+            <div class="col-12">
+            <label for="full_name" class="form-label">Old Password</label>
+            <input type="password" name="full_name" class="form-control" id="old_password" required autocomplete="off">
+            </div>
+
+            <div class="col-12">
+            <label for="email" class="form-label">New Password</label>
+            <input type="password" name="email" class="form-control" id="new_password"  required autocomplete="off">
+            </div>
+
+            <div class="col-12">
+            <label for="address" class="form-label">Confirm Password</label>
+            <input type="password" name="shipping_address" class="form-control" id="confirm_password" required autocomplete="off">
+            <div class="d-grid mt-4">
+                <button
+                        class="btn btn-primary btn-login text-uppercase fw-bold"
+                        type="submit"
+                    >
+                        Update Password
+                    </button>
+            </div>
+        </div>
+            {% comment %} <input type="hidden" name="total_price" value="{{ totals }}"> {% endcomment %}
+
+        </form>
+    </div>
+            </div>
+        </div>
+    </div>
+{% endblock body %}
+{% block scripts %}
+<script>
+    function submitForm() {
+        document.getElementById('uploadForm').submit();
+    }
+</script>
+{% endblock scripts %}
+
