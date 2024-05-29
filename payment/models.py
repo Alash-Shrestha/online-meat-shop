@@ -31,7 +31,6 @@ class Order(models.Model):
     amount_paid = models.FloatField(max_length=10)
     date_ordered = models.DateTimeField(auto_now_add=True)
     complete = models.BooleanField(default=False)
-    shipping_address = models.CharField(max_length=200, blank=True)
     
     class Meta:
         verbose_name_plural = 'Order'
