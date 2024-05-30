@@ -125,14 +125,18 @@ def change_password(request):
         confirm_password = request.POST.get("confirm_password")
         
         user = request.user
-        if user.password == old_password:
-            if new_password == confirm_password and validate_password(new_password):
-                user.password = new_password
-                user.save()
-                messages.success(request, "Password changed successfully")
-                return redirect("users:update_user")
+        if user.check_password(old_password):
+            if validate_password(new_password):
+                if new_password == confirm_password:
+                    user.set_password(new_password)
+                    user.save()
+                    messages.success(request, "Password changed successfully")
+                    return redirect("users:update_user")
+                else:
+                    messages.error(request, "Passwords do not match")
+                    return redirect("users:update_user")
             else:
-                messages.error(request, "Passwords do not match")
+                messages.error(request, "Password must contain at least 8 characters with numeric value")
                 return redirect("users:update_user")
         else:
             messages.error(request, "Invalid old password")
@@ -155,3 +159,41 @@ def about(request):
 
 def contact(request):
     return render(request, "contact.html")
+
+
+def check_email(request):
+    if request.method == "POST":
+        email = request.POST.get("email")
+        try:
+            user = User.objects.get(email=email)
+            user_id = user.id
+            return redirect("users:forgot_password", id=user_id)
+        except User.DoesNotExist:
+            messages.error(request, "Email does not exist")
+            return redirect("users:check_email")
+    else:
+        return render(request, "users/check_email.html")
+
+
+def forgot_password(request, id):
+    user = User.objects.get(id=id)
+    if request.method == "POST":
+        password = request.POST.get("password")
+        confirm_password = request.POST.get("confirm_password")
+        if validate_password(password):
+            if password == confirm_password:
+                user.set_password(password)
+                user.save()
+                messages.success(request, "Password changed successfully")
+                return redirect("users:login_page")
+            else:
+                messages.error(request, "Passwords do not match")
+                return redirect("users:forgot_password", id=id)
+        else:
+            messages.error(
+                request,
+                "Password must contain at least 8 characters with numeric value",
+            )
+            return redirect("users:forgot_password", id=id)
+    else:
+        return render(request, "users/forgot_password.html")
