@@ -58,7 +58,7 @@ def signup_page(request):
                 return redirect("users:login_page")
             else:
                 messages.error(request, "Password do not match",)
-            return redirect("users:signup_page")
+                return redirect("users:signup_page")
         else:
             messages.error(request, "Password must contain at least 8 characters with numeric value")
             return redirect("users:signup_page")
