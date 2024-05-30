@@ -71,7 +71,7 @@
         </div>
         <div class="col-md-6 ms-4">
             <div class="card-body">
-            <form method="POST">
+            <form action="{% url "users:update_user" %}" method="POST">
                 {% csrf_token %}
                 <div class="form-floating my-4">
                 <input
@@ -128,22 +128,22 @@
         <div class="col-md-6 col-lg-6">
             <div class="card">
         <h4 class="card-header container text-center">Change Password</h4>
-        <form method="POST">
+        <form action="{% url "users:change_password" %}" method="POST">
             {% csrf_token %}
         <div class="row g-3 card-body">
             <div class="col-12">
-            <label for="full_name" class="form-label">Old Password</label>
-            <input type="password" name="full_name" class="form-control" id="old_password" required autocomplete="off">
+            <label for="old_password" class="form-label">Old Password</label>
+            <input type="password" name="old_password" class="form-control" id="old_password" required autocomplete="off">
             </div>
 
             <div class="col-12">
-            <label for="email" class="form-label">New Password</label>
-            <input type="password" name="email" class="form-control" id="new_password"  required autocomplete="off">
+            <label for="new_password" class="form-label">New Password</label>
+            <input type="password" name="new_password" class="form-control" id="new_password"  required autocomplete="off">
             </div>
 
             <div class="col-12">
-            <label for="address" class="form-label">Confirm Password</label>
-            <input type="password" name="shipping_address" class="form-control" id="confirm_password" required autocomplete="off">
+            <label for="confirm_password" class="form-label">Confirm Password</label>
+            <input type="password" name="confirm_password" class="form-control" id="confirm_password" required autocomplete="off">
             <div class="d-grid mt-4">
                 <button
                         class="btn btn-primary btn-login text-uppercase fw-bold"

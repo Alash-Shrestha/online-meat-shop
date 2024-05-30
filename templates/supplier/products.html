@@ -73,8 +73,8 @@
             <strong>{{user}}</strong>
             </a>
             <ul class="dropdown-menu dropdown-menu-dark text-small shadow">
-            <li><a class="dropdown-item" href="{% url "supplier:update_profile" %}">Profile</a></li>
-            <li><hr class="dropdown-divider"></li>
+            {% comment %} <li><a class="dropdown-item" href="{% url "supplier:update_profile" %}">Profile</a></li>
+            <li><hr class="dropdown-divider"></li> {% endcomment %}
             <li><a class="dropdown-item" href="{% url "supplier:logout_page" %}">Sign out</a></li>
             </ul>
         </div>
